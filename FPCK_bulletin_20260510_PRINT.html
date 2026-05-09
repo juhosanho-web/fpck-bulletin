@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>FPCK Bulletin · May 10, 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ccc;
+      font-family: 'EB Garamond', Georgia, serif;
+    }
+
+    /* ── 각 페이지: A4 가로 크기 ── */
+    .sheet {
+      width: 297mm;
+      height: 210mm;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 10mm auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    .sheet:last-child {
+      page-break-after: avoid;
+    }
+
+    .half {
+      width: 148.5mm;
+      height: 210mm;
+      padding: 12mm 13mm;
+      overflow: hidden;
+    }
+
+    .half-left  { border-right: 0.5pt solid #555; }
+    .half-right { background: #fafafa; }
+
+    /* ── 접는선 표시 ── */
+    .fold-line {
+      position: absolute;
+      left: 148.5mm;
+      top: 0; bottom: 0;
+      border-left: 1pt dashed #aaa;
+      pointer-events: none;
+    }
+
+    /* ── Header ── */
+    .cross-emblem { text-align: center; margin-bottom: 2mm; }
+    .cross-emblem svg { width: 10mm; height: 10mm; }
+
+    .church-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 10pt;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-align: center;
+      color: #111;
+      margin-bottom: 1mm;
+      text-transform: uppercase;
+    }
+    .motto {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 8.5pt;
+      text-align: center;
+      color: #333;
+      margin-bottom: 1mm;
+    }
+    .contact {
+      font-size: 7.5pt;
+      text-align: center;
+      color: #555;
+      margin-bottom: 3mm;
+    }
+    .badge-wrap { text-align: center; margin-bottom: 2mm; }
+    .label-2026 {
+      display: inline-block;
+      background: #111; color: #fff;
+      font-size: 6.5pt; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 1px 7px; border-radius: 2px;
+    }
+    .thick-rule { border: none; border-top: 1.2pt solid #111; margin: 1.5mm 0; }
+    .thin-rule  { border: none; border-top: 0.4pt solid #aaa; margin: 1.5mm 0; }
+    .divider-ornament { text-align: center; font-size: 9pt; margin: 1mm 0; letter-spacing: 0.2em; color: #555; }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16pt;
+      font-weight: 600;
+      text-align: center;
+      color: #111;
+      margin: 1mm 0;
+    }
+    .service-date-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #555;
+      margin: 1mm 0 3mm;
+      border-bottom: 0.4pt solid #aaa;
+      padding-bottom: 1.5mm;
+    }
+
+    /* ── Order Table ── */
+    .order-table { width: 100%; border-collapse: collapse; }
+    .order-table tr { border-bottom: 0.4pt solid #ddd; }
+    .order-table tr:last-child { border-bottom: none; }
+    .order-table td { padding: 1.6mm 1mm; vertical-align: middle; font-size: 9.5pt; }
+    .item-name   { font-weight: 600; color: #111; width: 36%; }
+    .item-detail { color: #333; font-style: italic; width: 44%; font-size: 8.5pt; }
+    .item-who    { color: #666; text-align: right; width: 20%; font-size: 8pt; }
+    .dots        { color: #ccc; }
+
+    /* ── Right side headings ── */
+    .r-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 9pt; font-weight: 600;
+      color: #111; margin: 0 0 2mm;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border-bottom: 0.8pt solid #333; padding-bottom: 1mm;
+    }
+    .notice-block { margin-bottom: 4mm; }
+    .notice-text  { font-size: 8.5pt; line-height: 1.75; color: #222; }
+
+    /* Offering box */
+    .offering-box {
+      border: 0.4pt solid #aaa; border-radius: 2px;
+      padding: 2.5mm 3mm; margin-bottom: 4mm;
+      background: #f3f3f3;
+    }
+    .offering-head {
+      font-size: 8pt; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: #111; margin-bottom: 2mm;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .o-row {
+      display: flex; justify-content: space-between;
+      font-size: 8.5pt; padding: 1mm 0;
+      border-bottom: 0.4pt solid #ddd;
+    }
+    .o-row:last-child { border-bottom: none; }
+    .o-label { color: #666; font-size: 8pt; }
+    .o-val   { font-weight: 600; color: #111; }
+
+    /* Sermon box */
+    .sermon-box {
+      border-left: 2pt solid #444;
+      padding: 2mm 3mm; margin-bottom: 4mm;
+      background: #efefef; border-radius: 0 2px 2px 0;
+    }
+    .s-label { font-size: 7pt; text-transform: uppercase; letter-spacing: 0.13em; color: #666; margin-bottom: 1mm; }
+    .s-title { font-family: 'Playfair Display', serif; font-size: 9.5pt; font-weight: 600; color: #111; margin-bottom: 1.5mm; }
+    .s-body  { font-size: 8pt; line-height: 1.65; color: #333; font-style: italic; }
+
+    /* Hymn */
+    .hymn-text { font-size: 8.5pt; line-height: 1.75; color: #222; }
+    .hymn-text p { margin-bottom: 1.5mm; }
+
+    .footer-note {
+      margin-top: auto; padding-top: 2mm;
+      border-top: 0.4pt solid #aaa;
+      font-size: 7pt; color: #888;
+      text-align: center; font-style: italic;
+    }
+
+    /* ══════════════════════════════
+       전도지 스타일 (Sheet 2)
+    ══════════════════════════════ */
+    .tract-cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14mm 13mm;
+      background: #fff;
+    }
+    .tract-cover svg { width: 18mm; height: 18mm; margin-bottom: 5mm; }
+    .tract-cover .t-church {
+      font-family: 'Playfair Display', serif;
+      font-size: 11pt; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: #111; margin-bottom: 2mm;
+    }
+    .tract-cover .t-motto {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 9pt; color: #444;
+      margin-bottom: 5mm;
+    }
+    .tract-cover .t-divider {
+      font-size: 11pt; letter-spacing: 0.25em; color: #888; margin-bottom: 5mm;
+    }
+    .tract-cover .t-invite {
+      font-size: 9pt; line-height: 1.8; color: #333;
+      margin-bottom: 6mm;
+    }
+    .tract-cover .t-info-box {
+      border: 0.6pt solid #aaa;
+      border-radius: 3px;
+      padding: 3mm 6mm;
+      background: #f5f5f5;
+      font-size: 8.5pt; line-height: 1.8; color: #333;
+      text-align: left;
+      width: 100%;
+    }
+    .tract-cover .t-info-box strong { color: #111; }
+    .tract-cover .t-footer {
+      margin-top: 5mm;
+      font-size: 7.5pt; color: #888; font-style: italic;
+    }
+
+    .tract-inner {
+      padding: 12mm 13mm;
+      border-left: 0.5pt solid #555;
+      display: flex;
+      flex-direction: column;
+    }
+    .tract-inner .ti-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 13pt; font-weight: 600;
+      color: #111; margin-bottom: 3mm;
+      text-align: center;
+    }
+    .tract-inner .ti-verse {
+      border-left: 2.5pt solid #444;
+      padding: 2mm 3mm;
+      background: #f0f0f0;
+      margin-bottom: 4mm;
+      font-style: italic;
+      font-size: 9pt; line-height: 1.65; color: #333;
+    }
+    .tract-inner .ti-body {
+      font-size: 8.5pt; line-height: 1.78; color: #222;
+      margin-bottom: 4mm;
+    }
+    .tract-inner .ti-points {
+      list-style: none; padding: 0;
+      margin-bottom: 4mm;
+    }
+    .tract-inner .ti-points li {
+      font-size: 8.5pt; line-height: 1.7; color: #222;
+      padding: 1mm 0; border-bottom: 0.4pt solid #ddd;
+      display: flex; gap: 3mm;
+    }
+    .tract-inner .ti-points li:last-child { border-bottom: none; }
+    .tract-inner .ti-arrow { color: #555; }
+    .tract-inner .ti-closing {
+      margin-top: auto;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 9pt; color: #555; text-align: center;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: #fff; }
+      .sheet {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+      .sheet:last-child { page-break-after: avoid; }
+      @page { size: A4 landscape; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SHEET 1 — 주보 (Bulletin)
+     인쇄 후 가운데 접으면:
+       왼쪽 = 앞표지(예배순서)
+       오른쪽 = 안쪽(공지·헌금·설교)
+════════════════════════════════════════ -->
+<div class="sheet">
+
+  <!-- 왼쪽: 예배순서 -->
+  <div class="half half-left">
+    <div class="cross-emblem">
+      <svg viewBox="0 0 36 36" fill="none">
+        <rect x="15" y="4" width="6" height="28" fill="#111" rx="1"/>
+        <rect x="6" y="13" width="24" height="6" fill="#111" rx="1"/>
+      </svg>
+    </div>
+    <div class="church-name">First Presbyterian Church of Korea</div>
+    <div class="motto">"You follow me!" — John 21:22</div>
+    <div class="contact">juhosanho@gmail.com</div>
+    <div class="badge-wrap"><span class="label-2026">2026 Vision</span></div>
+    <hr class="thick-rule"/>
+    <div class="divider-ornament">✦ ✦ ✦</div>
+    <hr class="thin-rule"/>
+    <div class="section-title">Lord's Day Worship</div>
+    <div class="service-date-row">
+      <span>Sunday Service · 11:00 AM</span>
+      <span>May 10, 2026</span>
+    </div>
+    <table class="order-table">
+      <tr>
+        <td class="item-name">Ten Commandments</td>
+        <td class="item-detail dots">· · · · · · · ·</td>
+        <td class="item-who">Pastor</td>
+      </tr>
+      <tr>
+        <td class="item-name">Hymn</td>
+        <td class="item-detail"><em>Down at the Cross</em><br>
+          <span style="font-size:7.5pt;color:#777;">Hymn #250</span></td>
+        <td class="item-who">Congregation</td>
+      </tr>
+      <tr>
+        <td class="item-name">Prayer</td>
+        <td class="item-detail dots">· · · · · · · ·</td>
+        <td class="item-who">Leader</td>
+      </tr>
+      <tr>
+        <td class="item-name">Sermon</td>
+        <td class="item-detail"><em>Psalm 126</em><br>
+          <span style="font-size:7.5pt;color:#777;">Exposition of Psalms</span></td>
+        <td class="item-who">Pastor</td>
+      </tr>
+      <tr>
+        <td class="item-name">Offering</td>
+        <td class="item-detail dots">· · · · · · · ·</td>
+        <td class="item-who">Congregation</td>
+      </tr>
+      <tr>
+        <td class="item-name">Hymn</td>
+        <td class="item-detail"><em>Leaning, Leaning</em><br>
+          <span style="font-size:7.5pt;color:#777;">Hymn #405</span></td>
+        <td class="item-who">Congregation</td>
+      </tr>
+      <tr>
+        <td class="item-name">Lord's Prayer</td>
+        <td class="item-detail dots">· · · · · · · ·</td>
+        <td class="item-who">Together</td>
+      </tr>
+      <tr>
+        <td class="item-name">Benediction</td>
+        <td class="item-detail dots">· · · · · · · ·</td>
+        <td class="item-who">Pastor</td>
+      </tr>
+    </table>
+    <div class="footer-note">"God is our refuge and strength." — Psalm 46:1</div>
+  </div>
+
+  <!-- 오른쪽: 공지·헌금·설교요약 -->
+  <div class="half half-right">
+    <div class="notice-block">
+      <div class="r-title">Church Notices</div>
+      <div class="notice-text">
+        ▸ <strong>Prayer Meeting</strong> — Wednesday 7:00 PM. All are welcome for prayer and fellowship.<br><br>
+        ▸ <strong>Bible Study</strong> — Friday evenings. Continuing our study of the Psalms. Please bring your Bible.<br><br>
+        ▸ <strong>New Visitors</strong> — We warmly welcome you. Please greet the pastor after the service.
+      </div>
+    </div>
+
+    <div class="notice-block">
+      <div class="r-title">Online Offering</div>
+      <div class="offering-box">
+        <div class="offering-head">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+               stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+          Bank Transfer
+        </div>
+        <div class="o-row"><span class="o-label">Bank</span><span class="o-val">Woori Bank</span></div>
+        <div class="o-row"><span class="o-label">Account No.</span><span class="o-val">474-08-007733</span></div>
+        <div class="o-row"><span class="o-label">Account Name</span><span class="o-val">Yoon Yob Park</span></div>
+      </div>
+    </div>
+
+    <div class="notice-block">
+      <div class="r-title">Sermon Summary</div>
+      <div class="sermon-box">
+        <div class="s-label">Today's Text</div>
+        <div class="s-title">Psalm 126 — The Lord Restores His People</div>
+        <div class="s-body">
+          "When the Lord restored the fortunes of Zion, we were like those who dream." — Ps. 126:1<br><br>
+          God's restoration is beyond imagination. As we sow in tears, He promises we shall reap with songs of joy. Let us trust in His faithful redemption.
+        </div>
+      </div>
+    </div>
+
+    <div class="r-title">Hymn — Leaning on the Everlasting Arms (#405)</div>
+    <div class="hymn-text">
+      <p>What a fellowship, what a joy divine,<br>
+      Leaning on the everlasting arms;<br>
+      What a blessedness, what a peace is mine,<br>
+      Leaning on the everlasting arms.</p>
+      <p style="font-style:italic; color:#666; font-size:8pt;">
+        Refrain: Leaning, leaning, safe and secure from all alarms;<br>
+        Leaning, leaning, leaning on the everlasting arms.
+      </p>
+    </div>
+
+    <div class="footer-note">May the grace of our Lord Jesus Christ be with you all.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     SHEET 2 — 전도지 (Evangelism Tract)
+     인쇄 후 가운데 접으면:
+       왼쪽 = 전도지 표지
+       오른쪽 = 전도지 내용
+════════════════════════════════════════ -->
+<div class="sheet">
+
+  <!-- 왼쪽: 전도지 표지 -->
+  <div class="half tract-cover">
+    <svg viewBox="0 0 36 36" fill="none">
+      <rect x="15" y="4" width="6" height="28" fill="#111" rx="1"/>
+      <rect x="6" y="13" width="24" height="6" fill="#111" rx="1"/>
+    </svg>
+    <div class="t-church">First Presbyterian Church of Korea</div>
+    <div class="t-motto">"You follow me!" — John 21:22</div>
+    <div class="t-divider">✦ ✦ ✦</div>
+    <div class="t-invite">
+      You are warmly invited<br>
+      to worship with us.<br><br>
+      <em>Come as you are.<br>
+      God's grace is for everyone.</em>
+    </div>
+    <div class="t-info-box">
+      <strong>Sunday Worship</strong> · 11:00 AM<br>
+      <strong>Prayer Meeting</strong> · Wednesday 7:00 PM<br>
+      <strong>Bible Study</strong> · Friday evenings<br>
+      <strong>Contact</strong> · juhosanho@gmail.com
+    </div>
+    <div class="t-footer">"For God so loved the world…" — John 3:16</div>
+  </div>
+
+  <!-- 오른쪽: 전도지 내용 -->
+  <div class="half tract-inner">
+    <div class="ti-title">Do You Know This Hope?</div>
+    <div class="ti-verse">
+      "For I know the plans I have for you, declares the Lord,
+      plans for welfare and not for evil, to give you a future and a hope."
+      <br>— Jeremiah 29:11
+    </div>
+    <div class="ti-body">
+      In a world of uncertainty and hardship, God offers a hope that does not disappoint.
+      The Bible tells us that every person is loved by God — and that He sent His Son,
+      Jesus Christ, to restore what was broken between us and Him.
+    </div>
+    <ul class="ti-points">
+      <li><span class="ti-arrow">✦</span>
+        <span><strong>God loves you.</strong> Before you were born, He knew your name. (Ps. 139:13)</span>
+      </li>
+      <li><span class="ti-arrow">✦</span>
+        <span><strong>We all need forgiveness.</strong> Every person has fallen short of God's glory. (Rom. 3:23)</span>
+      </li>
+      <li><span class="ti-arrow">✦</span>
+        <span><strong>Jesus is the way.</strong> He died and rose again so that we might live. (John 14:6)</span>
+      </li>
+      <li><span class="ti-arrow">✦</span>
+        <span><strong>You can begin again.</strong> Whoever calls on His name will be saved. (Rom. 10:13)</span>
+      </li>
+    </ul>
+    <div class="ti-closing">
+      Come and see. We would love to walk this journey with you.<br><br>
+      — First Presbyterian Church of Korea
+    </div>
+  </div>
+
+</div>
+
+<!-- ── 인쇄 안내 (화면에서만 보임) ── -->
+<div style="max-width:700px; margin:10mm auto 20mm; font-family:sans-serif; font-size:13px; line-height:1.9; color:#333; background:#fff; padding:1.5rem 2rem; border:1px solid #ccc; border-radius:6px;">
+  <strong style="font-size:15px;">🖨️ 인쇄 방법</strong><br><br>
+  1. 브라우저에서 이 파일 열기<br>
+  2. <strong>Ctrl + P</strong> (Mac: Cmd + P)<br>
+  3. 용지 방향: <strong>가로 (Landscape)</strong><br>
+  4. 여백: <strong>없음 (None)</strong><br>
+  5. 페이지 크기: <strong>A4</strong><br>
+  6. <strong>인쇄</strong> → 가운데를 접으면 완성!<br><br>
+  <span style="color:#888;">※ Sheet 1 = 주보 / Sheet 2 = 전도지 (각각 따로 인쇄 가능)</span>
+</div>
+
+</body>
+</html>
